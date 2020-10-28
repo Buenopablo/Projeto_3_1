@@ -22,13 +22,13 @@ public class DatabaseDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(criarTabela());
+        db.execSQL(ProdutoContract.criarTabela());
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(removerTabela());
-        db.execSQL(criarTabela());
+        db.execSQL(ProdutoContract.removerTabela());
+        db.execSQL(ProdutoContract.criarTabela());
 
 
     }
