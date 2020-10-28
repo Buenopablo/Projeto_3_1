@@ -16,7 +16,7 @@
         android:id="@+id/btn_novo_produto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onClickProdutonovo"
+        android:onClick="onClickNovoProduto"
         android:text="Novo Produto" />
 
 </LinearLayout>

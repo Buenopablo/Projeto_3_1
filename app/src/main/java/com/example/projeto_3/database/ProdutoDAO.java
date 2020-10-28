@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ProdutoDAO {
 
-    private String SQL_LISTAR_TODOS = " SELECT * FROM " + ProdutoEntity.TABLE_NAME;
+    private String SQL_LISTAR_TODOS = "SELECT * FROM " + ProdutoEntity.TABLE_NAME;
     private DBGateway dbGateway;
 
     public ProdutoDAO(Context context) {
@@ -23,11 +23,15 @@ public class ProdutoDAO {
         ContentValues contentValues = new ContentValues();
         contentValues.put(ProdutoEntity.COLUMNS_NAME_NOME, produto.getNome());
         contentValues.put(ProdutoEntity.COLUMNS_NAME_VALOR, produto.getValor());
-        long id = dbGateway.getDatabase().insert(ProdutoEntity.TABLE_NAME, null, contentValues);
-        return id > 0;
+        if(produto.getId() >0) {
+            return dbGateway.getDatabase().update(ProdutoEntity.TABLE_NAME, contentValues, ProdutoEntity._ID
+                    + "=?", new String[]{String.valueOf(produto.getId())}) > 0;
+
+        }
+        return dbGateway.getDatabase().insert(ProdutoEntity.TABLE_NAME, null, contentValues) > 0;
     }
 
-    public List<Produto> listar () {
+    public List<Produto> listar() {
         List<Produto> produtos = new ArrayList<>();
         Cursor cursor = dbGateway.getDatabase().rawQuery(SQL_LISTAR_TODOS, null);
         while (cursor.moveToNext()) {
@@ -40,4 +44,9 @@ public class ProdutoDAO {
         return produtos;
     }
 
+    public int ExcluirProduto(Produto produto) {
+        int Return = dbGateway.getDatabase().delete(ProdutoEntity.TABLE_NAME, ProdutoEntity._ID + "=?",
+                new String[]{String.valueOf(produto.getId())});
+        return Return;
+    }
 }
